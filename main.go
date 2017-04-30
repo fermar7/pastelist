@@ -84,6 +84,22 @@ func main() {
 		result = append(result, []string{e, linebreak.ReplaceAllString(text, "")})
 	}
 
-	fmt.Println(result)
+	fmt.Println("End of list.")
+	fmt.Print("File path to export notes: ")
+
+	exportFile, _ := reader.ReadString('\n')
+	fmt.Println(exportFile)
+
+	f, writerr := os.Create(linebreak.ReplaceAllString(exportFile, ""))
+	defer f.Close()
+	if writerr != nil {
+		panic(err)
+	}
+
+	for _, e := range result {
+		f.Write([]byte(e[0] + ": " + e[1] + "\r\n"))
+	}
+
+	fmt.Println("Finish")
 
 }
